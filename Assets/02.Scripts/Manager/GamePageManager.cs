@@ -7,6 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class GamePageManager : MonoBehaviour
 {
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
+    }
     public void ReturnToMainPage()
     {
         Global.Instance.NextScene = SceneTable.STR_SCENE_MAINPAGE;
