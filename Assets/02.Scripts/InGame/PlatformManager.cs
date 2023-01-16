@@ -7,7 +7,7 @@ public class PlatformManager : MonoBehaviour
     public Platform[] platforms;
     public List<Platform> platformList;
     public int targetIdx = 1;
-    private float time;
+
     private void Awake()
     {
         platforms = GetComponentsInChildren<Platform>();
@@ -33,5 +33,4 @@ public class PlatformManager : MonoBehaviour
             }
         }
     }
-
 }

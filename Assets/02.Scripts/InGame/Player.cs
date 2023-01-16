@@ -8,24 +8,30 @@ public class Player : Singleton<Player>
     public float frictionValue;
     public bool isDead = false;
     public bool isFeverTime = false;
+    public bool isDmgImmune = false;
     public int grade = 0;
+
     public Sprite[] spriteAsset;
-    public GameObject comboTextPrefab;
     public Transform feverTransform;
 
     [SerializeField]
-    private StateDatas stateDatas;
+    private StatusDatas statusDatas;
 
-    private int expToUp;
-    private int expToDown;
-    private int expDmg;
+    private int gradeIdx = 0;
+    public int expToUp;
+    public int expToDown;
+    public int expDmg;
+
     private Vector3 playerPrePos;
+    private Vector3 playerOriginSize;
     private SpriteRenderer spriteRenderer;
+    private AudioSource expGainSound;
+    private Rigidbody2D rigid;
     private const int GRADE_MAX = 4;
 
     private CircleCollider2D coli;
 
-    private void OnEnable()
+    private void Awake()
     {
         //콜라이더에 physicsmaterial 할당 후 bounciness 설정
         coli = GetComponent<CircleCollider2D>();
@@ -35,8 +41,11 @@ public class Player : Singleton<Player>
         coli.sharedMaterial = material;
         //
 
+        SetGradeInfo(0); // 초기 0등급 설정
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
+        expGainSound = GetComponent<AudioSource>();
+        rigid = GetComponent<Rigidbody2D>();
+        playerOriginSize = gameObject.transform.localScale;
     }
     private void Update()
     {
@@ -71,48 +80,36 @@ public class Player : Singleton<Player>
     /// </summary>
     private void SetPlayerStatus()
     {
-        switch (grade)
+        if(GameManager.instance.expTotal >= expToUp)
         {
-            case 0:
-                expToUp = 100;
-                expDmg = 20;
-                break;
-
-            case 1:
-                expToDown = 100;
-                expToUp = 300;
-                expDmg = 30;
-                break;
-            case 2:
-                expToDown = 300;
-                expToUp = 1000;
-                expDmg = 50;
-                break;
-
-            case 3:
-                expToDown = 1000;
-                expToUp = 5000;
-                expDmg = 100;
-                break;
-
-            case 4:
-                expToDown = 5000;
-                expDmg = 150;
-                break;
+            gradeIdx++;
+            if (gradeIdx > GRADE_MAX)
+                gradeIdx = GRADE_MAX;
+            SetGradeInfo(gradeIdx);
         }
 
-        if (GameManager.instance.expTotal >= expToUp && grade != GRADE_MAX)
+        if(GameManager.instance.expTotal < expToDown)
         {
-            grade++;
-        }
-
-        if (GameManager.instance.expTotal < expToDown && grade != 0)
-        {
-            grade--;
+            gradeIdx--;
+            SetGradeInfo(gradeIdx);
         }
 
         spriteRenderer.sprite = spriteAsset[grade];
     }
+
+    private void SetGradeInfo(int idx)
+    {
+        StatusData gradeData = statusDatas.GetData(idx);
+        grade = gradeData.grade;
+        expToUp = gradeData.expToUp;
+        expToDown = gradeData.expToDown;
+
+        if (!isDmgImmune) // 무적 상태가 아닐 때
+            expDmg = gradeData.expDmg;
+        else //무적 상태 일 때
+            expDmg = 0;
+    }
+
     /// <summary>
     /// 일정 콤보 달성 시 피버타임 활성화
     /// </summary>
@@ -120,6 +117,7 @@ public class Player : Singleton<Player>
     {
         if (GameManager.instance.combo == 5)
         {
+            SetSize(playerOriginSize);
             isFeverTime = true;
             GameManager.instance.combo = 0;
         }
@@ -130,11 +128,35 @@ public class Player : Singleton<Player>
     public void Damage()
     {
         GameManager.instance.expTotal -= expDmg;
+        UIManager.instance.ShowDamagedScore();
     }
 
+    public void GravityUp(float speed)
+    {
+        rigid.gravityScale *= speed;
+    }
+
+    public void SetSize(Vector3 size)
+    {
+        gameObject.transform.localScale = size;
+    }
     public void Dead()
     {
         isDead = true;
+        GameManager.instance.b_isGameOverByFail = true;
         gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Exp"))
+        {
+            expGainSound.Play();
+        }
+    }
+
+    public void SetOriginSize()
+    {
+        SetSize(playerOriginSize);
     }
 }

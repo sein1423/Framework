@@ -4,13 +4,21 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
     private Vector3 cameraPos;
+    private float xPos, yPos;
     public Transform targetTransform;
-    private void Awake()
+    public Transform feverTransform;
+
+    public void SetFeverFocus()
     {
-        cameraPos = new Vector3(0, 0, -10);
+        transform.position = feverTransform.position + new Vector3(0, 0, -10);
     }
-    private void Update() // 타겟 트랜스폼에 따라 움직임
+
+    public void SetPlayerFocus()
     {
-        transform.position = new Vector3(targetTransform.position.x, targetTransform.position.y, targetTransform.position.z - 10);
+        xPos = targetTransform.position.x;
+        yPos = targetTransform.position.y - 2;
+        if (yPos < 1)
+            yPos = 1;
+        transform.position = new Vector3(xPos, yPos, -10);
     }
 }

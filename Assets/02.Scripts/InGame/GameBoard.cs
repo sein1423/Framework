@@ -40,7 +40,7 @@ public class GameBoard : MonoBehaviour
     /// <summary>
     /// 드래그로 회전하기
     /// </summary>
-    private void RotateWithDrag()
+    public void RotateWithDrag()
     {
         offset = (Input.mousePosition - mousePos);
         angle -= (offset.x) * Time.deltaTime * rotateSpeed;
