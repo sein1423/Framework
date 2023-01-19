@@ -61,6 +61,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+        //씬 전달받으면 주석 지울것
         //SceneManager.LoadSceneAsync(Global.Instance.StageNumber, LoadSceneMode.Additive);
     }
 
