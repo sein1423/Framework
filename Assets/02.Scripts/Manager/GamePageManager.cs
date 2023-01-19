@@ -15,6 +15,7 @@ public class GamePageManager : MonoBehaviour
     }
     public void ReturnToMainPage()
     {
+        Time.timeScale = 1;
         Global.Instance.NextScene = SceneTable.STR_SCENE_MAINPAGE;
         SceneManager.LoadScene(SceneTable.STR_SCENE_LODING, LoadSceneMode.Additive);
     }
@@ -33,7 +34,7 @@ public class GamePageManager : MonoBehaviour
 
     public void RetryGame()
     {
-        SceneManager.LoadScene(SceneTable.STR_SCENE_GAMEPAGE);
         Time.timeScale = 1;
+        SceneManager.LoadScene(SceneTable.STR_SCENE_GAMEPAGE);
     }
 }

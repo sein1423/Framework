@@ -7,9 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class MainManager : MonoBehaviour
 {
-    public void StartGame()
+    public void StageSelect()
     {
-        Global.Instance.NextScene = SceneTable.STR_SCENE_GAMEPAGE;
+        Global.Instance.NextScene = SceneTable.STR_SCENE_SELECTSTAGE;
         SceneManager.LoadScene(SceneTable.STR_SCENE_LODING, LoadSceneMode.Additive);
     }
 
