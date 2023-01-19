@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c86111849be689498309dd0b67ecfde, type: 3}
+  m_Name: GradeData
+  m_EditorClassIdentifier: 
+  statusDatas:
+  - grade: 0
+    expToDown: 0
+    expToUp: 100
+    expDmg: 15
+  - grade: 1
+    expToDown: 100
+    expToUp: 300
+    expDmg: 30
+  - grade: 2
+    expToDown: 300
+    expToUp: 1000
+    expDmg: 50
+  - grade: 3
+    expToDown: 1000
+    expToUp: 5000
+    expDmg: 100
+  - grade: 4
+    expToDown: 5000
+    expToUp: 10000
+    expDmg: 250

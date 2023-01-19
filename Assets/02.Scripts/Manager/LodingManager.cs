@@ -20,6 +20,7 @@ public class LodingManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log($"{Global.Instance.NowScene} : {Global.Instance.NextScene}");
         SceneManager.UnloadSceneAsync(Global.Instance.NowScene);
         StartCoroutine(LoadScene());
     }

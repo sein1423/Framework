@@ -7,11 +7,16 @@ public class UIManager : Singleton<UIManager>
 {
     public Text scoreText;
     public Text countDownText;
-    public Text comboText;
+    public Text feverText;
+    public GameObject pauseMenu;
+    public GameObject resultMenu;
+    public GameObject failMenu;
+    public GameObject[] Stars;
     private void Update()
     {
-        scoreText.text = "Score : " + GameManager.instance.score;
+        scoreText.text = "Score : " + GameManager.instance.expTotal;
         ShowCountDown();
+        ShowFeverText();
     }
 
     /// <summary>
@@ -26,5 +31,49 @@ public class UIManager : Singleton<UIManager>
             countDownText.color = Color.yellow;
             countDownText.text = "Game Start!";
         }
+    }
+
+    private void ShowFeverText()
+    {
+        if(GameManager.instance.b_startFever)
+        {
+            feverText.gameObject.SetActive(true);
+        }
+
+        else
+            feverText.gameObject.SetActive(false);
+    }
+
+    public void SetPauseMenu(bool isActive)
+    {
+        pauseMenu.SetActive(isActive);
+    }
+
+    public void ShowSucMenu(bool isActive, int starNum)
+    {
+        resultMenu.SetActive(isActive);
+        Stars[starNum].SetActive(true);
+    }
+
+    public void ShowFailMenu(bool isActive)
+    {
+        failMenu.SetActive(isActive);
+    }
+
+    public void ShowDamagedScore()
+    {
+        scoreText.color = Color.red;
+        StartCoroutine("ChangeOriginColor");
+    }
+
+    public void ShowGainScore()
+    {
+        scoreText.color = Color.blue;
+        StartCoroutine("ChangeOriginColor");
+    }
+    IEnumerator ChangeOriginColor()
+    {
+        yield return new WaitForSeconds(0.5f);
+        scoreText.color = Color.white;
     }
 }

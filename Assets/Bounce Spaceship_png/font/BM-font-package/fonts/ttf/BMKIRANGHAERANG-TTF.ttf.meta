@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 4941f69ad9178d842a929dc04d9d47a3
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - BM KIRANGHAERANG
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: ce81f071eb2f75f4aa402af2b440eac2, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

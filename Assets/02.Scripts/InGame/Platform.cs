@@ -8,7 +8,6 @@ public class Platform : MonoBehaviour
     public bool b_isSteped; //¹âÇúÀ» ¶§ true·Î
     public bool b_isTarget; //Å¸°ÙÀÏ ¶§ true·Î
     public GameObject comboTextPrefab;
-    public Transform canvasTransform;
 
     private void Awake()
     {
@@ -23,7 +22,7 @@ public class Platform : MonoBehaviour
             //ÄÞº¸ ÅØ½ºÆ® Ãâ·Â
             GameObject textObject = Instantiate(comboTextPrefab);
             Vector3 uiPosition = Camera.main.WorldToScreenPoint(transform.position);
-            textObject.transform.SetParent(canvasTransform);
+            textObject.transform.SetParent(GameManager.instance.canvasTransform);
             textObject.transform.position = uiPosition;
             //
             b_isSteped = true;
