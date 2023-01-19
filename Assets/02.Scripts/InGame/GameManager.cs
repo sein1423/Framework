@@ -1,6 +1,8 @@
+using Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
@@ -55,6 +57,11 @@ public class GameManager : Singleton<GameManager>
         blind = GameObject.FindObjectOfType<Blind>();
         quickSlot = GameObject.FindObjectOfType<QuickSlot>();
         uiManager = UIManager.instance;
+    }
+
+    private void Start()
+    {
+        //SceneManager.LoadSceneAsync(Global.Instance.StageNumber, LoadSceneMode.Additive);
     }
 
     private void Update()

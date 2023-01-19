@@ -24,5 +24,6 @@ namespace Core
         public string NowScene = "";
         public string NextScene = "";
         public bool b_isLoading;
+        public string StageNumber = "";
     }
 }

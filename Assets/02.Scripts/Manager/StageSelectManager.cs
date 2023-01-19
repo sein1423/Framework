@@ -19,7 +19,7 @@ public class StageSelectManager : MonoBehaviour
     public void GoSelectStage()
     {
         Global.Instance.NextScene = SceneTable.STR_SCENE_GAMEPAGE;
-        //Global.Instance.NextScene = string.Format("STR_SCENE_GAMESTAGE{0:D2}", SelectStageNumber);
+        Global.Instance.StageNumber = string.Format("GameStage{0:D2}", SelectStageNumber);
         SceneManager.LoadScene(SceneTable.STR_SCENE_LODING, LoadSceneMode.Additive);
     }
 

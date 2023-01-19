@@ -22,6 +22,7 @@ public class LodingManager : MonoBehaviour
     {
         Debug.Log($"{Global.Instance.NowScene} : {Global.Instance.NextScene}");
         SceneManager.UnloadSceneAsync(Global.Instance.NowScene);
+        //if(Global.Instance.NowScene == DataTable.SceneTable.STR_SCENE_GAMEPAGE) SceneManager.UnloadSceneAsync(Global.Instance.StageNumber); 
         StartCoroutine(LoadScene());
     }
 
