@@ -45,7 +45,6 @@ public class GameBoard : MonoBehaviour
         offset = (Input.mousePosition - mousePos);
         angle -= (offset.x) * Time.deltaTime * rotateSpeed;
         angle = Mathf.Clamp(angle, -maxDegree, maxDegree);
-
         transform.eulerAngles = new Vector3(0, 0, angle);
         mousePos = Input.mousePosition;
         

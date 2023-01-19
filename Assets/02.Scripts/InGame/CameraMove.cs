@@ -7,6 +7,7 @@ public class CameraMove : MonoBehaviour
     private float xPos, yPos;
     public Transform targetTransform;
     public Transform feverTransform;
+    public Transform goalTransform;
 
     public void SetFeverFocus()
     {
@@ -17,8 +18,8 @@ public class CameraMove : MonoBehaviour
     {
         xPos = targetTransform.position.x;
         yPos = targetTransform.position.y - 2;
-        if (yPos < 1)
-            yPos = 1;
+        if (yPos < -22.5f)
+            yPos = -22.5f;
         transform.position = new Vector3(xPos, yPos, -10);
     }
 }

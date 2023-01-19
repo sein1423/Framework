@@ -131,11 +131,6 @@ public class Player : Singleton<Player>
         UIManager.instance.ShowDamagedScore();
     }
 
-    public void GravityUp(float speed)
-    {
-        rigid.gravityScale *= speed;
-    }
-
     public void SetSize(Vector3 size)
     {
         gameObject.transform.localScale = size;

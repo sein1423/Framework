@@ -28,7 +28,7 @@ public class GameManager : Singleton<GameManager>
     public Transform canvasTransform;
     public CameraMove cameraMove;
 
-    private float feverTime = 5;
+    private float feverTime = 10;
     private bool b_countDown = true;
     private Player _player;
     public Player GetPlayer
@@ -133,7 +133,7 @@ public class GameManager : Singleton<GameManager>
     private void ReturnOriginState()
     {
         b_startFever = false;
-        feverTime = 5;
+        feverTime = 10;
         GetPlayer.gameObject.AddComponent<Rigidbody2D>(); // 삭제 및 추가를 피버타임 진행 및 종료 시 딱 한번씩만 진행으로 최소화
         FeverExpPool.instance.ReturnAll();
         b_feverDone = true;

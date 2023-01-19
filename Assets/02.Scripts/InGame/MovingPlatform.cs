@@ -9,6 +9,7 @@ public class MovingPlatform : MonoBehaviour
     public float rotateSpeed;
     public bool dirX, dirY, rotate;
     private Vector3 pos;
+    private float runningTime = 0;
 
     private void Awake()
     {
