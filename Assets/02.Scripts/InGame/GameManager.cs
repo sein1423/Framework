@@ -1,6 +1,8 @@
+using Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
@@ -36,11 +38,7 @@ public class GameManager : Singleton<GameManager>
         get { return _player; }
     }
 
-    private Blind blind;
-    public Blind GetBlind
-    {
-        get { return blind; }
-    }
+    public Blind blind;
 
     private QuickSlot quickSlot;
     public QuickSlot GetQuickSlot
@@ -55,6 +53,11 @@ public class GameManager : Singleton<GameManager>
         blind = GameObject.FindObjectOfType<Blind>();
         quickSlot = GameObject.FindObjectOfType<QuickSlot>();
         uiManager = UIManager.instance;
+    }
+
+    private void Start()
+    {
+        SceneManager.LoadSceneAsync(Global.Instance.StageNumber, LoadSceneMode.Additive);
     }
 
     private void Update()
@@ -85,13 +88,13 @@ public class GameManager : Singleton<GameManager>
             {
                 b_gameStart = false;
             }
-
+            
             if(combo == 4) // 장애물 디버프 해제
             {
                 Player.instance.SetOriginSize();
                 Rigidbody2D rigid = Player.instance.gameObject.GetComponent<Rigidbody2D>();
                 rigid.gravityScale = 1;
-                GetBlind.Disable();
+                blind.Disable();
             }
 
             if(b_startFever) // Player.cs 에서 피버 조건 만족하면 피버 시작
