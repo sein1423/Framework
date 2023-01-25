@@ -6,16 +6,22 @@ using UnityEngine.EventSystems;
 public class GameBoard : MonoBehaviour
 {
     private bool rotating;
-    public float rotateSpeed = 1;
+    private float rotateSpeed = 0.5f;
+    private float gyroRotateSpeed = 15;
     private float angle;
-    public float maxDegree = 30;
+    private float gyroValue;
+    private float maxDegree = 25;
     private Vector3 mousePos;
     private Vector3 offset;
     private Vector3 rotation;
 
+    private Vector3 gyroRotationRate;
+    private Vector3 gyroUserAccel;
+
     private void Awake()
     {
         angle = transform.eulerAngles.z;
+        Input.gyro.enabled = true;
     }
     private void OnMouseDown()
     {
@@ -31,10 +37,15 @@ public class GameBoard : MonoBehaviour
 
     private void Update()
     {
+        //Debug.Log("Rotation = " + gyroRotationRate);
+        //Debug.Log("Accel = " + gyroUserAccel);
         if (rotating && GameManager.instance.b_gameStart)
         {
             RotateWithDrag();
         }
+
+        if (GameManager.instance.b_gameStart && !GameManager.instance.b_startFever)
+            RotateWithGyro();
     }
 
     /// <summary>
@@ -48,5 +59,16 @@ public class GameBoard : MonoBehaviour
         transform.eulerAngles = new Vector3(0, 0, angle);
         mousePos = Input.mousePosition;
         
+    }
+
+    public void RotateWithGyro()
+    {
+        gyroRotationRate = Input.gyro.rotationRateUnbiased;
+        gyroValue = gyroRotationRate.y * Time.deltaTime * gyroRotateSpeed;
+        gyroValue = Mathf.Clamp(gyroValue, -1f, 1f);
+        Debug.Log(gyroValue);
+        angle -= gyroValue;
+        angle = Mathf.Clamp(angle, -maxDegree, maxDegree);
+        transform.eulerAngles = new Vector3(0, 0, angle);
     }
 }

@@ -8,6 +8,7 @@ public class UIManager : Singleton<UIManager>
     public Text scoreText;
     public Text countDownText;
     public Text feverText;
+    public Text feverGuideText;
     public GameObject pauseMenu;
     public GameObject resultMenu;
     public GameObject failMenu;
@@ -35,13 +36,17 @@ public class UIManager : Singleton<UIManager>
 
     private void ShowFeverText()
     {
-        if(GameManager.instance.b_startFever)
+        if (GameManager.instance.b_startFever)
         {
             feverText.gameObject.SetActive(true);
+            feverGuideText.gameObject.SetActive(true);
         }
 
         else
+        {
             feverText.gameObject.SetActive(false);
+            feverGuideText.gameObject.SetActive(false);
+        }
     }
 
     public void SetPauseMenu(bool isActive)

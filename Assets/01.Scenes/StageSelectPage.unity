@@ -3953,7 +3953,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1912169780}
         m_TargetAssemblyTypeName: StageSelectManager, Assembly-CSharp
-        m_MethodName: BackMain
+        m_MethodName: DisableStagePopup
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
