@@ -37,8 +37,6 @@ public class GameBoard : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log("Rotation = " + gyroRotationRate);
-        //Debug.Log("Accel = " + gyroUserAccel);
         if (rotating && GameManager.instance.b_gameStart)
         {
             RotateWithDrag();
@@ -66,7 +64,6 @@ public class GameBoard : MonoBehaviour
         gyroRotationRate = Input.gyro.rotationRateUnbiased;
         gyroValue = gyroRotationRate.y * Time.deltaTime * gyroRotateSpeed;
         gyroValue = Mathf.Clamp(gyroValue, -1f, 1f);
-        Debug.Log(gyroValue);
         angle -= gyroValue;
         angle = Mathf.Clamp(angle, -maxDegree, maxDegree);
         transform.eulerAngles = new Vector3(0, 0, angle);
