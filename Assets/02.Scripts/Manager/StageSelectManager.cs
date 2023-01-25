@@ -28,4 +28,9 @@ public class StageSelectManager : MonoBehaviour
         Global.Instance.NextScene = SceneTable.STR_SCENE_MAINPAGE;
         SceneManager.LoadScene(SceneTable.STR_SCENE_LODING, LoadSceneMode.Additive);
     }
+
+    public void DisableStagePopup()
+    {
+        SelectStagePopup.SetActive(false);
+    }
 }

@@ -46,6 +46,8 @@ public class Player : Singleton<Player>
         expGainSound = GetComponent<AudioSource>();
         rigid = GetComponent<Rigidbody2D>();
         playerOriginSize = gameObject.transform.localScale;
+
+        Input.gyro.enabled = true;
     }
     private void Update()
     {
@@ -129,11 +131,6 @@ public class Player : Singleton<Player>
     {
         GameManager.instance.expTotal -= expDmg;
         UIManager.instance.ShowDamagedScore();
-    }
-
-    public void GravityUp(float speed)
-    {
-        rigid.gravityScale *= speed;
     }
 
     public void SetSize(Vector3 size)

@@ -30,7 +30,7 @@ public class GameManager : Singleton<GameManager>
     public Transform canvasTransform;
     public CameraMove cameraMove;
 
-    private float feverTime = 5;
+    private float feverTime = 10;
     private bool b_countDown = true;
     private Player _player;
     public Player GetPlayer
@@ -38,11 +38,7 @@ public class GameManager : Singleton<GameManager>
         get { return _player; }
     }
 
-    private Blind blind;
-    public Blind GetBlind
-    {
-        get { return blind; }
-    }
+    public Blind blind;
 
     private QuickSlot quickSlot;
     public QuickSlot GetQuickSlot
@@ -61,8 +57,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        //씬 전달받으면 주석 지울것
-        //SceneManager.LoadSceneAsync(Global.Instance.StageNumber, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(Global.Instance.StageNumber, LoadSceneMode.Additive);
     }
 
     private void Update()
@@ -93,13 +88,13 @@ public class GameManager : Singleton<GameManager>
             {
                 b_gameStart = false;
             }
-
+            
             if(combo == 4) // 장애물 디버프 해제
             {
                 Player.instance.SetOriginSize();
                 Rigidbody2D rigid = Player.instance.gameObject.GetComponent<Rigidbody2D>();
                 rigid.gravityScale = 1;
-                GetBlind.Disable();
+                blind.Disable();
             }
 
             if(b_startFever) // Player.cs 에서 피버 조건 만족하면 피버 시작
@@ -141,7 +136,7 @@ public class GameManager : Singleton<GameManager>
     private void ReturnOriginState()
     {
         b_startFever = false;
-        feverTime = 5;
+        feverTime = 10;
         GetPlayer.gameObject.AddComponent<Rigidbody2D>(); // 삭제 및 추가를 피버타임 진행 및 종료 시 딱 한번씩만 진행으로 최소화
         FeverExpPool.instance.ReturnAll();
         b_feverDone = true;
