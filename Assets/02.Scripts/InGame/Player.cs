@@ -46,8 +46,6 @@ public class Player : Singleton<Player>
         expGainSound = GetComponent<AudioSource>();
         rigid = GetComponent<Rigidbody2D>();
         playerOriginSize = gameObject.transform.localScale;
-
-        Input.gyro.enabled = true;
     }
     private void Update()
     {
