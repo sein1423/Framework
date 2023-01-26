@@ -17,6 +17,7 @@ public class GamePageManager : MonoBehaviour
     {
         Time.timeScale = 1;
         Global.Instance.NextScene = SceneTable.STR_SCENE_MAINPAGE;
+        SceneManager.UnloadSceneAsync(Global.Instance.StageNumber);
         SceneManager.LoadScene(SceneTable.STR_SCENE_LODING, LoadSceneMode.Additive);
     }
 

@@ -6,22 +6,28 @@ using UnityEngine.EventSystems;
 public class GameBoard : MonoBehaviour
 {
     private bool rotating;
-    public float rotateSpeed = 1;
+    private float rotateSpeed = 0.5f;
     private float angle;
-    public float maxDegree = 30;
+    private float maxDegree = 25;
     private Vector3 mousePos;
     private Vector3 offset;
     private Vector3 rotation;
 
-    private void Awake()
+    private float gyroAngle;
+    private float gyroRotateSpeed = 13f;
+    private float gyroValue;
+
+    private void Start()
     {
         angle = transform.eulerAngles.z;
+        Input.gyro.enabled = true;
     }
+
     private void OnMouseDown()
     {
         rotating = true;
         mousePos = Input.mousePosition;
-        
+
     }
 
     private void OnMouseUp()
@@ -35,6 +41,11 @@ public class GameBoard : MonoBehaviour
         {
             RotateWithDrag();
         }
+
+        if (GameManager.instance.b_gameStart)
+        {
+            RotateWithGyro();
+        }
     }
 
     /// <summary>
@@ -47,6 +58,14 @@ public class GameBoard : MonoBehaviour
         angle = Mathf.Clamp(angle, -maxDegree, maxDegree);
         transform.eulerAngles = new Vector3(0, 0, angle);
         mousePos = Input.mousePosition;
-        
+    }
+
+    public void RotateWithGyro()
+    {
+        gyroValue = Input.gyro.rotationRateUnbiased.y * Time.deltaTime * gyroRotateSpeed;
+        gyroValue = Mathf.Clamp(gyroValue, -1f, 1f);
+        angle -= gyroValue;
+        angle = Mathf.Clamp(angle, -maxDegree, maxDegree);
+        transform.eulerAngles = new Vector3(0, 0, angle);
     }
 }
