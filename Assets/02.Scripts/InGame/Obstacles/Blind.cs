@@ -11,7 +11,7 @@ public class Blind : MonoBehaviour
     private Player player;
     private Transform playerTrasform;
 
-    private void Awake()
+    private void Start()
     {
         gameManager = GameManager.instance;
         player = gameManager.GetPlayer;

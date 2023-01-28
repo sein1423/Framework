@@ -22,11 +22,20 @@ EditorBuildSettings:
     guid: 6a0ce2e3809b3d0449dc06accfb56f3b
   - enabled: 1
     path: Assets/01.Scenes/GameStage01.unity
-    guid: aa829e36a694c664bb9b8688bce6895f
+    guid: f4610a77bac3ad84b88af595eb715ba4
   - enabled: 1
     path: Assets/01.Scenes/GameStage02.unity
-    guid: 27adab569b2aae742a1d7f7e20209815
+    guid: 5617758dcb03e64459136bb8e9ffa914
   - enabled: 1
     path: Assets/01.Scenes/GameStage03.unity
+    guid: aa829e36a694c664bb9b8688bce6895f
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage04.unity
+    guid: 27adab569b2aae742a1d7f7e20209815
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage05.unity
     guid: 6ff22d6ef9eb0bf4c8ecbaaeb11bf2a3
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage06.unity
+    guid: 22a35c5f3e379a3448015c114b850f67
   m_configObjects: {}

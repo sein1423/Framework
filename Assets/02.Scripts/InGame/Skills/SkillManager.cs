@@ -51,7 +51,7 @@ public class SkillManager : Singleton<SkillManager>
             GameObject expObject = FeverExpPool.instance.GetExpObject(Random.Range(0, FeverExpPool.instance.pools.Length));
             float randomX = Random.Range(-3f, 3f);
             float randomY = Random.Range(0, 7f);
-            expObject.transform.position = playerTransform.position - new Vector3(randomX, randomY);
+            expObject.transform.position = new Vector3(randomX, playerTransform.position.y - randomY);
 
         }
     }

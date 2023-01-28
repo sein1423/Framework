@@ -8,13 +8,14 @@ public class GameBoard : MonoBehaviour
     private bool rotating;
     private float rotateSpeed = 0.5f;
     private float angle;
-    private float maxDegree = 25;
+    private float maxDegree = 30f;
     private Vector3 mousePos;
     private Vector3 offset;
     private Vector3 rotation;
 
+    private float dragValue;
     private float gyroAngle;
-    private float gyroRotateSpeed = 13f;
+    private float gyroRotateSpeed = 10;
     private float gyroValue;
 
     private void Start()
@@ -42,7 +43,7 @@ public class GameBoard : MonoBehaviour
             RotateWithDrag();
         }
 
-        if (GameManager.instance.b_gameStart)
+        if (GameManager.instance.b_gameStart && !GameManager.instance.b_startFever)
         {
             RotateWithGyro();
         }
@@ -54,7 +55,9 @@ public class GameBoard : MonoBehaviour
     public void RotateWithDrag()
     {
         offset = (Input.mousePosition - mousePos);
-        angle -= (offset.x) * Time.deltaTime * rotateSpeed;
+        dragValue = (offset.x) * Time.deltaTime * rotateSpeed;
+        dragValue = Mathf.Clamp(dragValue, -1f, 1f);
+        angle -= dragValue;
         angle = Mathf.Clamp(angle, -maxDegree, maxDegree);
         transform.eulerAngles = new Vector3(0, 0, angle);
         mousePos = Input.mousePosition;
@@ -63,6 +66,7 @@ public class GameBoard : MonoBehaviour
     public void RotateWithGyro()
     {
         gyroValue = Input.gyro.rotationRateUnbiased.y * Time.deltaTime * gyroRotateSpeed;
+        //gyroValue = Input.acceleration.z * Time.deltaTime * gyroRotateSpeed;
         gyroValue = Mathf.Clamp(gyroValue, -1f, 1f);
         angle -= gyroValue;
         angle = Mathf.Clamp(angle, -maxDegree, maxDegree);
