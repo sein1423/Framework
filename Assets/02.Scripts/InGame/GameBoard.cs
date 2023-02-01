@@ -47,6 +47,12 @@ public class GameBoard : MonoBehaviour
         {
             RotateWithGyro();
         }
+
+        if(GameManager.instance.b_revive)
+        {
+            angle = 0;
+            GameManager.instance.b_revive = false;
+        }
     }
 
     /// <summary>

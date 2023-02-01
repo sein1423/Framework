@@ -18,6 +18,7 @@ public class Player : Singleton<Player>
     private StatusDatas statusDatas;
 
     private int gradeIdx = 0;
+    private float originY;
     public int expToUp;
     public int expToDown;
     public int expDmg;
@@ -139,7 +140,25 @@ public class Player : Singleton<Player>
     {
         isDead = true;
         GameManager.instance.b_isGameOverByFail = true;
+        originY = gameObject.transform.position.y;
         gameObject.SetActive(false);
+    }
+
+    public void Revive()
+    {
+        isDead = false;
+        if (GameManager.instance.expTotal <= 0) // Dead by Damage
+        {
+            GameManager.instance.expTotal = 50;
+            originY -= 10;
+        }
+        GameManager.instance.b_gameStart = true;
+        GameManager.instance.b_isGameOverByFail = false;
+        UIManager.instance.failReviveMenu.SetActive(false);
+        UIManager.instance.f_reviveTimer = 5;
+        GameManager.instance.b_revive = true;
+        gameObject.transform.position = new Vector3(0, originY + 10f);
+        gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

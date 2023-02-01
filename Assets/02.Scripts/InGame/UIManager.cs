@@ -9,10 +9,17 @@ public class UIManager : Singleton<UIManager>
     public Text countDownText;
     public Text feverText;
     public Text feverGuideText;
+    public Text reviveCountText;
     public GameObject pauseMenu;
     public GameObject resultMenu;
     public GameObject failMenu;
+    public GameObject failReviveMenu;
+    public GameObject feverGuidePanel;
     public GameObject[] Stars;
+
+    private int i_reviveCount = 5;
+    public float f_reviveTimer = 5;
+
     private void Update()
     {
         scoreText.text = "Score : " + GameManager.instance.expTotal;
@@ -40,6 +47,7 @@ public class UIManager : Singleton<UIManager>
         {
             feverText.gameObject.SetActive(true);
             feverGuideText.gameObject.SetActive(true);
+            StartCoroutine("ShowFeverGuide");
         }
 
         else
@@ -60,9 +68,22 @@ public class UIManager : Singleton<UIManager>
         Stars[starNum].SetActive(true);
     }
 
-    public void ShowFailMenu(bool isActive)
+    public void ShowFailReviveMenu(bool isActive)
     {
-        failMenu.SetActive(isActive);
+        failReviveMenu.SetActive(isActive);
+        f_reviveTimer -= Time.deltaTime;
+        i_reviveCount = Mathf.RoundToInt(f_reviveTimer);
+        reviveCountText.text = i_reviveCount.ToString();
+        if(f_reviveTimer < 0)
+        {
+            ShowFailMenu();
+        }
+    }
+
+    public void ShowFailMenu()
+    {
+        failReviveMenu.SetActive(false);
+        failMenu.SetActive(true);
     }
 
     public void ShowDamagedScore()
@@ -80,5 +101,15 @@ public class UIManager : Singleton<UIManager>
     {
         yield return new WaitForSeconds(0.5f);
         scoreText.color = Color.white;
+    }
+
+    IEnumerator ShowFeverGuide()
+    {
+        if (feverGuidePanel != null)
+        {
+            feverGuidePanel.gameObject.SetActive(true);
+            yield return new WaitForSeconds(1.0f);
+            Destroy(feverGuidePanel);
+        }
     }
 }

@@ -21,6 +21,7 @@ public class GameManager : Singleton<GameManager>
     public bool b_blindActive = false;
     public bool b_isGameOverByFail = false;
     public bool b_isGameOveBySuc = false;
+    public bool b_revive = false;
 
     //Trigger By Skill
     public bool b_magneticItem = false;
@@ -29,6 +30,11 @@ public class GameManager : Singleton<GameManager>
 
     public Transform canvasTransform;
     public CameraMove cameraMove;
+    private GameBoard gameBoard;
+    public GameBoard GetGameBoard
+    {
+        get { return gameBoard; }
+    }
 
     private float feverTime = 10;
     private bool b_countDown = true;
@@ -52,6 +58,7 @@ public class GameManager : Singleton<GameManager>
         _player = GameObject.FindObjectOfType<Player>();
         blind = GameObject.FindObjectOfType<Blind>();
         quickSlot = GameObject.FindObjectOfType<QuickSlot>();
+        gameBoard = GameObject.FindObjectOfType<GameBoard>();
         uiManager = UIManager.instance;
     }
 
@@ -117,7 +124,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (b_isGameOverByFail)
         {
-            uiManager.ShowFailMenu(true);
+            uiManager.ShowFailReviveMenu(true);
         }
 
         if (b_isGameOveBySuc)
