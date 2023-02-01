@@ -12,9 +12,15 @@ public class LoginManager : MonoBehaviour
         Global.Instance.NowScene = SceneTable.STR_SCENE_LOGIN;
 
     }
+
+    private void Start()
+    {
+        Global.Instance.LoadUserData();
+    }
+
     public void GoMainPage()
     {
-        Global.Instance.NextScene = SceneTable.STR_SCENE_MAINPAGE;
+        Global.Instance.NextScene = SceneTable.STR_SCENE_SELECTSTAGE;
         SceneManager.LoadScene(SceneTable.STR_SCENE_LODING, LoadSceneMode.Additive);
     }
 }
