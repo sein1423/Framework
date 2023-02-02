@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class GameBoard : MonoBehaviour
 {
     private bool rotating;
-    private float rotateSpeed = 0.5f;
+    private float rotateSpeed = 0.7f;
     private float angle;
     private float maxDegree = 30f;
     private Vector3 mousePos;
@@ -63,7 +63,7 @@ public class GameBoard : MonoBehaviour
     {
         offset = (Input.mousePosition - mousePos);
         dragValue = (offset.x) * Time.deltaTime * rotateSpeed;
-        dragValue = Mathf.Clamp(dragValue, -1f, 1f);
+        dragValue = Mathf.Clamp(dragValue, -0.7f, 0.7f);
         angle -= dragValue;
         angle = Mathf.Clamp(angle, -maxDegree, maxDegree);
         transform.eulerAngles = new Vector3(0, 0, angle);

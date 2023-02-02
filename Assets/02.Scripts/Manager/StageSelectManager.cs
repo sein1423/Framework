@@ -26,6 +26,7 @@ public class StageSelectManager : MonoBehaviour
 
     public void SelectStage(int StageNumber)
     {
+        Global.Instance.Stage = StageNumber;
         SelectStageNumber = StageNumber;
         SelectStagePopup.SetActive(true);
     }

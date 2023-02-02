@@ -16,7 +16,7 @@ public class CheckGoal : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             goalSound.Play();
-            gameManager.b_isGameOveBySuc = true;
+            gameManager.b_isGameOverBySuc = true;
             gameManager.b_gameStart = false;
             Player player = collision.gameObject.GetComponent<Player>();
             player.gameObject.SetActive(false);

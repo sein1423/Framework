@@ -10,8 +10,10 @@ public class GameManager : Singleton<GameManager>
     public int expTotal = 50;
     public int expMax = 5000;
     public int combo;
+    public int gainCoinAmount;
 
-    public int[] starScore_standards; 
+    public int[] starScore_standards;
+    private int starNum;
 
     public bool b_startFever = false;
     public bool b_feverDone = false;
@@ -20,8 +22,9 @@ public class GameManager : Singleton<GameManager>
     public bool b_gameStart = false;
     public bool b_blindActive = false;
     public bool b_isGameOverByFail = false;
-    public bool b_isGameOveBySuc = false;
+    public bool b_isGameOverBySuc = false;
     public bool b_revive = false;
+    public bool b_gameDone = false;
 
     //Trigger By Skill
     public bool b_magneticItem = false;
@@ -120,19 +123,6 @@ public class GameManager : Singleton<GameManager>
         CheckGameOver();
     }
 
-    private void CheckGameOver()
-    {
-        if (b_isGameOverByFail)
-        {
-            uiManager.ShowFailReviveMenu(true);
-        }
-
-        if (b_isGameOveBySuc)
-        {
-            int starNum = CountStarForScore();
-            uiManager.ShowSucMenu(true, starNum);
-        }
-    }
     public void BlindItem_TriggerByPlayer()
     {
         b_blindActive = true;
@@ -149,13 +139,65 @@ public class GameManager : Singleton<GameManager>
         b_feverDone = true;
     }
 
-    private int CountStarForScore()
+    private void CheckGameOver()
     {
-        int starNum;
-        starNum = Random.Range(0, 4); // 임시로 해놓음
-        return starNum;
+        if (b_isGameOverByFail)
+        {
+            uiManager.ShowFailReviveMenu(true);
+        }
+
+        if (b_isGameOverBySuc)
+        {
+            b_gameDone = true;
+            if (b_gameDone)
+            {
+                CountStarForScore();
+                SaveStageInfo(starNum);
+                ResultGainCoin();
+                b_gameDone = false;
+            }
+            uiManager.ShowSucMenu(true, starNum);
+        }
     }
 
+    private void CountStarForScore()
+    {
+        if(expTotal < 3000)
+        {
+            starNum = 1;
+        }
+
+        else if(expTotal < 5000)
+        {
+            starNum = 2;
+        }
+
+        else
+        {
+            starNum = 3;
+        }
+    }
+
+    private void SaveStageInfo(int star)
+    {
+        if (Global.Instance.Star < starNum)
+        {
+            Global.Instance.Star = star;
+        }
+
+        if(Global.Instance.HIghScore < expTotal)
+        {
+            Global.Instance.HIghScore = expTotal;
+        }
+
+        Global.Instance.SaveData();
+    }
+
+    private void ResultGainCoin()
+    {
+        gainCoinAmount = starNum * 10 + Global.Instance.Stage * 10;
+        Global.Instance.Coin += gainCoinAmount;
+    }
     public void AddScore(int exp)
     {
         if (b_doubleScoreItem || b_startFever)

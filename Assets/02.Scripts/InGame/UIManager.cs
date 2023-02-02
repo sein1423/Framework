@@ -10,6 +10,7 @@ public class UIManager : Singleton<UIManager>
     public Text feverText;
     public Text feverGuideText;
     public Text reviveCountText;
+    public Text gainCoinAmountText;
     public GameObject pauseMenu;
     public GameObject resultMenu;
     public GameObject failMenu;
@@ -80,6 +81,7 @@ public class UIManager : Singleton<UIManager>
     {
         resultMenu.SetActive(isActive);
         Stars[starNum].SetActive(true);
+        gainCoinAmountText.text = GameManager.instance.gainCoinAmount.ToString();
     }
 
     public void ShowFailReviveMenu(bool isActive)

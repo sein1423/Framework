@@ -34,7 +34,7 @@ namespace Core
         //public string UserNickName = "";
         public int Star = 0;
         public int Stage = 0;
-
+        public int HIghScore = 0;
 
         public void LoadUserData()
         {
@@ -46,6 +46,7 @@ namespace Core
                 Star = gv.Star;
                 ItemDict = gv.ItemDict;
                 Stage = gv.Stage;
+                HIghScore = gv.HighScore;
             }
         }
 
@@ -56,6 +57,7 @@ namespace Core
             gv.ItemDict = ItemDict;
             gv.Star = Star;
             gv.Stage = Stage;
+            gv.HighScore = HIghScore;
             File.WriteAllText(Application.persistentDataPath + jsonFilePath, JsonUtility.ToJson(gv));
         }
     }
@@ -68,5 +70,6 @@ namespace Core
         //public string UserNickName;
         public int Star;
         public int Stage;
+        public int HighScore;
     }
 }
