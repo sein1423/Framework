@@ -17,6 +17,7 @@ public class GameBoard : MonoBehaviour
     private float gyroAngle;
     private float gyroRotateSpeed = 10;
     private float gyroValue;
+    private float accelValue;
 
     private void Start()
     {
@@ -72,9 +73,10 @@ public class GameBoard : MonoBehaviour
     public void RotateWithGyro()
     {
         gyroValue = Input.gyro.rotationRateUnbiased.y * Time.deltaTime * gyroRotateSpeed;
-        //gyroValue = Input.acceleration.z * Time.deltaTime * gyroRotateSpeed;
-        gyroValue = Mathf.Clamp(gyroValue, -1f, 1f);
-        angle -= gyroValue;
+        gyroValue = Mathf.Clamp(gyroValue, -0.7f, 0.7f);
+        accelValue = Input.acceleration.x * Time.deltaTime * gyroRotateSpeed;
+        Debug.Log("gyroValue = " + gyroValue + "accelValue = " + accelValue);
+        angle -= (gyroValue + accelValue);
         angle = Mathf.Clamp(angle, -maxDegree, maxDegree);
         transform.eulerAngles = new Vector3(0, 0, angle);
     }

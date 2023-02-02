@@ -17,6 +17,16 @@ public class SkillPlatform : MonoBehaviour
     public GameObject[] itemPrefabs;
 
     public float[] scorePercent = { 0.36f, 0.71f, 0.78f, 0.85f, 1.0f };
+    UIManager uiManager;
+
+    private enum Skills
+    {
+        scoreDouble,
+        scoreMagnetic,
+        scoreFillAround,
+        obstacleImmune,
+        scoreRandomGain
+    }
 
     private void Awake()
     {
@@ -28,6 +38,8 @@ public class SkillPlatform : MonoBehaviour
         skillPercentList.Add(scoreRandomGainPercent);
 
         isSteped = false;
+
+        uiManager = UIManager.instance;
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -36,7 +48,8 @@ public class SkillPlatform : MonoBehaviour
             QuickSlot quickSlot = collision.gameObject.GetComponentInChildren<QuickSlot>();
 
             RandomSkillSetting();
-            
+            ShowSkillGuide();
+
             if (skillNum == 4)
             {
                 SkillManager.instance.ScoreGainByPercent();
@@ -70,6 +83,28 @@ public class SkillPlatform : MonoBehaviour
                 skillNum = i;
                 break;
             }
+        }
+    }
+
+    private void ShowSkillGuide()
+    {
+        switch (skillNum)
+        {
+            case (int)Skills.scoreDouble:
+                uiManager.ShowScoreDoubleGuide();
+                break;
+            case (int)Skills.scoreMagnetic:
+                uiManager.ShowScoreMagneticGuide();
+                break;
+            case (int)Skills.scoreFillAround:
+                uiManager.ShowScoreFillAroundGuide();
+                break;
+            case (int)Skills.obstacleImmune:
+                uiManager.ShowObstacleImmuneGuide();
+                break;
+            case (int)Skills.scoreRandomGain:
+                uiManager.ShowScoreRandomGainGuide();
+                break;
         }
     }
 }

@@ -6,15 +6,19 @@ public class SizeDown : MonoBehaviour
 {
     private Vector3 downSize;
     GameManager gameManager;
+    UIManager uiManager;
     private void Awake()
     {
         gameManager = GameManager.instance;
+        uiManager = UIManager.instance;
         downSize = new Vector3(0.25f, 0.25f, 0.25f);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Player"))
         {
+            uiManager.ShowSizeDownGuide();
+
             if (!gameManager.b_obstacleImmuneItem)
             {
                 Player.instance.SetSize(downSize);

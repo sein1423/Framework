@@ -6,15 +6,19 @@ public class SpeedUp : MonoBehaviour
 {
     public float upSpeed = 1.5f;
     GameManager gameManager;
-
+    UIManager uiManager;
     private void Awake()
     {
         gameManager = GameManager.instance;
+        uiManager = UIManager.instance;
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Player"))
         {
+            uiManager.ShowSpeedUpGuide();
+
             if (!gameManager.b_obstacleImmuneItem)
             {
                 GameManager.instance.combo = 0;

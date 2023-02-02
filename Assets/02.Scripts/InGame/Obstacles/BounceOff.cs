@@ -5,15 +5,18 @@ using UnityEngine;
 public class BounceOff : MonoBehaviour
 {
     GameManager gameManager;
-
+    UIManager uiManager;
     private void Awake()
     {
         gameManager = GameManager.instance;
+        uiManager = UIManager.instance;
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Player"))
         {
+            uiManager.ShowBounceOffGuide();
+
             if (!gameManager.b_obstacleImmuneItem)
             {
                 gameManager.expTotal -= gameManager.expTotal / 5;

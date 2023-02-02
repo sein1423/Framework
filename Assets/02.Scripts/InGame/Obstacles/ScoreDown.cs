@@ -6,9 +6,11 @@ public class ScoreDown : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     GameManager gameManager;
+    UIManager uiManager;
     private void Awake()
     {
         gameManager = GameManager.instance;
+        uiManager = UIManager.instance;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void Update()
@@ -37,6 +39,8 @@ public class ScoreDown : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            uiManager.ShowScoreDownGuide();
+
             if (!gameManager.b_obstacleImmuneItem)
             {
                 Player.instance.Damage();
