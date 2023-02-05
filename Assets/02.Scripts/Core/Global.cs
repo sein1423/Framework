@@ -31,6 +31,7 @@ namespace Core
         public string StageNumber = "";
         public int Coin = 0;
         public Dictionary<ItemSO, int> ItemDict = new Dictionary<ItemSO, int>();
+        public Dictionary<string, int> StageDict = new Dictionary<string, int>();
         //public string UserNickName = "";
         public int Star = 0;
         public int Stage = 0;
@@ -46,6 +47,7 @@ namespace Core
                 Star = gv.Star;
                 ItemDict = gv.ItemDict;
                 Stage = gv.Stage;
+                StageDict = gv.StageDict;
             }
         }
 
@@ -56,6 +58,7 @@ namespace Core
             gv.ItemDict = ItemDict;
             gv.Star = Star;
             gv.Stage = Stage;
+            gv.StageDict = StageDict;
             File.WriteAllText(Application.persistentDataPath + jsonFilePath, JsonUtility.ToJson(gv));
         }
     }
@@ -68,5 +71,6 @@ namespace Core
         //public string UserNickName;
         public int Star;
         public int Stage;
+        public Dictionary<string, int> StageDict = new Dictionary<string, int>();
     }
 }
