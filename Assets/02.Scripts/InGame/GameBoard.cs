@@ -18,6 +18,13 @@ public class GameBoard : MonoBehaviour
     private float gyroRotateSpeed = 10;
     private float gyroValue;
     private float accelValue;
+    GameManager gameManager;
+
+
+    private void Awake()
+    {
+        gameManager = GameManager.instance;
+    }
 
     private void Start()
     {
@@ -39,20 +46,20 @@ public class GameBoard : MonoBehaviour
 
     private void Update()
     {
-        if (rotating && GameManager.instance.b_gameStart)
+        if (rotating && gameManager.b_GameStart)
         {
             RotateWithDrag();
         }
 
-        if (GameManager.instance.b_gameStart && !GameManager.instance.b_startFever)
+        if (gameManager.b_GameStart && !gameManager.b_StartFever)
         {
             RotateWithGyro();
         }
 
-        if(GameManager.instance.b_revive)
+        if(gameManager.b_revive)
         {
             angle = 0;
-            GameManager.instance.b_revive = false;
+            gameManager.b_revive = false;
         }
     }
 
@@ -75,7 +82,6 @@ public class GameBoard : MonoBehaviour
         gyroValue = Input.gyro.rotationRateUnbiased.y * Time.deltaTime * gyroRotateSpeed;
         gyroValue = Mathf.Clamp(gyroValue, -0.7f, 0.7f);
         accelValue = Input.acceleration.x * Time.deltaTime * gyroRotateSpeed;
-        Debug.Log("gyroValue = " + gyroValue + "accelValue = " + accelValue);
         angle -= (gyroValue + accelValue);
         angle = Mathf.Clamp(angle, -maxDegree, maxDegree);
         transform.eulerAngles = new Vector3(0, 0, angle);

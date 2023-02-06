@@ -8,15 +8,20 @@ public class ExpSlider : MonoBehaviour
     private Image expSlider;
     private float exp;
     private float expRatio;
+    GameManager gameManager;
+    Player player;
+
     private void Awake()
     {
+        gameManager = GameManager.instance;
+        player = gameManager.Player;
         expSlider = GetComponent<Image>();
     }
     private void Update()
     {
-        exp = GameManager.instance.expTotal;
-        expRatio = (float)(GameManager.instance.expTotal- Player.instance.expToDown) / (Player.instance.expToUp - Player.instance.expToDown);
-        switch (Player.instance.grade)
+        exp = gameManager.ExpTotal;
+        expRatio = (float)(gameManager.ExpTotal - player.expToDown) / (player.expToUp - player.expToDown);
+        switch (player.grade)
         {
             case 0:
                 expSlider.fillAmount = expRatio * 0.25f;

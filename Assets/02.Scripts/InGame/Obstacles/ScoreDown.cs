@@ -44,7 +44,7 @@ public class ScoreDown : MonoBehaviour
             if (!gameManager.b_obstacleImmuneItem)
             {
                 Player.instance.Damage();
-                GameManager.instance.combo = 0;
+                gameManager.combo = 0;
                 gameObject.SetActive(false);
             }
 

@@ -9,7 +9,6 @@ public class MovingPlatform : MonoBehaviour
     public float rotateSpeed;
     public bool dirX, dirY, rotate;
     private Vector3 pos;
-    private float runningTime = 0;
 
     private void Awake()
     {
@@ -17,7 +16,7 @@ public class MovingPlatform : MonoBehaviour
     }
     private void Update()
     {
-        //if(GameManager.instance.b_gameStart)
+        //if(gameManager.b_gameStart)
         //{
         Vector3 v = pos;
 

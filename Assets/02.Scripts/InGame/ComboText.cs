@@ -9,17 +9,18 @@ public class ComboText : MonoBehaviour
     private float alphaSpeed;
     private float destroyTime;
     private Text comboText;
-
+    GameManager gameManager;
     Color alpha;
     private void Start()
     {
+        gameManager = GameManager.instance;
         moveSpeed = 2.0f;
         alphaSpeed = 2.0f;
         destroyTime = 2.0f;
 
         comboText = GetComponent<Text>();
         alpha = comboText.color;
-        comboText.text = GameManager.instance.combo + " Combo!";
+        comboText.text = gameManager.combo + " Combo!";
 
         Invoke("DestroyObject", destroyTime);
     }

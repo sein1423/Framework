@@ -35,11 +35,19 @@ public class UIManager : Singleton<UIManager>
     public float f_reviveTimer = 5;
     private float disablePopUpTime = 1.0f;
 
+    GameManager gameManager;
+
+
+    private void Start()
+    {
+        gameManager = GameManager.instance;
+    }
+
+
     private void Update()
     {
-        scoreText.text = "Score : " + GameManager.instance.expTotal;
+        scoreText.text = "Score : " + gameManager.ExpTotal;
         ShowCountDown();
-        ShowFeverText();
     }
 
     /// <summary>
@@ -47,24 +55,23 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     private void ShowCountDown()
     {
-        countDownText.text = GameManager.instance.i_startCount.ToString();
+        countDownText.text = gameManager.i_startCount.ToString();
 
-        if (GameManager.instance.i_startCount == 0)
+        if (gameManager.i_startCount == 0)
         {
             countDownText.color = Color.yellow;
             countDownText.text = "Game Start!";
         }
     }
 
-    private void ShowFeverText()
+    public void ShowFeverText(bool active)
     {
-        if (GameManager.instance.b_startFever)
+        if (active)
         {
             feverText.gameObject.SetActive(true);
             feverGuideText.gameObject.SetActive(true);
             StartCoroutine("ShowFeverGuide");
         }
-
         else
         {
             feverText.gameObject.SetActive(false);
@@ -81,7 +88,7 @@ public class UIManager : Singleton<UIManager>
     {
         resultMenu.SetActive(isActive);
         Stars[starNum].SetActive(true);
-        gainCoinAmountText.text = GameManager.instance.gainCoinAmount.ToString();
+        gainCoinAmountText.text = gameManager.gainCoinAmount.ToString();
     }
 
     public void ShowFailReviveMenu(bool isActive)
@@ -124,7 +131,7 @@ public class UIManager : Singleton<UIManager>
         if (feverGuidePanel != null)
         {
             feverGuidePanel.gameObject.SetActive(true);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.0f);
             Destroy(feverGuidePanel);
         }
     }

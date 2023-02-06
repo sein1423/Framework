@@ -21,7 +21,7 @@ public class SpeedUp : MonoBehaviour
 
             if (!gameManager.b_obstacleImmuneItem)
             {
-                GameManager.instance.combo = 0;
+                gameManager.combo = 0;
                 Rigidbody2D rigid = collision.GetComponent<Rigidbody2D>();
                 rigid.gravityScale = 1.5f;
                 gameObject.SetActive(false);

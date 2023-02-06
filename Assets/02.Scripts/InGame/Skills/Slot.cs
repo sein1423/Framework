@@ -11,7 +11,7 @@ public class Slot : MonoBehaviour
     private void Start()
     {
         gameManager = GameManager.instance;
-        quickSlot = gameManager.GetPlayer.GetComponentInChildren<QuickSlot>();
+        quickSlot = gameManager.Player.GetComponentInChildren<QuickSlot>();
         num = int.Parse(gameObject.name.Substring(gameObject.name.IndexOf("_") + 1));
     }
 

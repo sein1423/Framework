@@ -61,6 +61,17 @@ public class FeverExpPool : Singleton<FeverExpPool>
         return expObject;
     }
 
+    public GameObject RandomGetExpObject(int start = 0, int end = 0)
+    {
+        int rndIdx = 0;
+        if (start == 0 && end == 0)
+            rndIdx = Random.Range(0, pools.Length);
+        else
+            rndIdx = Random.Range(start, end);
+
+        return GetExpObject(rndIdx);
+    }
+
     /// <summary>
     /// exp 아이템 모두 비활성화
     /// </summary>

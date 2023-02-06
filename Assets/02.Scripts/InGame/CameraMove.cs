@@ -8,6 +8,7 @@ public class CameraMove : MonoBehaviour
     public Transform targetTransform;
     public Transform feverTransform;
     public Transform goalTransform;
+    public float moveDamping = 3f;
 
     public void SetFeverFocus()
     {
@@ -20,6 +21,6 @@ public class CameraMove : MonoBehaviour
         yPos = targetTransform.position.y - 2;
         if (yPos < -22.5f)
             yPos = -22.5f;
-        transform.position = new Vector3(xPos, yPos, -10);
+        transform.position = Vector3.Lerp(this.transform.position, new Vector3(xPos, yPos, -10), Time.deltaTime * moveDamping);
     }
 }

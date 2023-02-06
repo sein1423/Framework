@@ -12,20 +12,24 @@ public class FeverBoard : MonoBehaviour
     private Vector3 originPos;
     private Vector3 mousePos;
     private Vector3 offset;
+    Player player;
+    GameManager gameManager;
 
-    private void Awake()
+    private void Start()
     {
+        gameManager = GameManager.instance;
         originPos = transform.position;
+        player = gameManager.Player;
     }
     private void Update()
     {
-        if (GameManager.instance.b_startFever) //피버 시작 시 맵이 위로 올라감, 드래그로 플레이어 움직이기 가능
+        if (gameManager.b_StartFever) //피버 시작 시 맵이 위로 올라감, 드래그로 플레이어 움직이기 가능
         {
             transform.Translate(Vector3.up * Time.deltaTime * downSpeed);
             MovePlayerByDrag();
         }
 
-        if(!GameManager.instance.b_startFever) //피버가 끝나면 원래 위치로 돌아감
+        if(!gameManager.b_StartFever) //피버가 끝나면 원래 위치로 돌아감
         {
             transform.position = originPos;
         }
@@ -52,7 +56,7 @@ public class FeverBoard : MonoBehaviour
             offset = (Input.mousePosition - mousePos);
             xPos += (offset.x) * Time.deltaTime * playerSpeed;
             xPos = Mathf.Clamp(xPos, -3f, 3f);
-            Player.instance.gameObject.transform.position = new Vector3(startTransform.position.x + xPos, startTransform.position.y, startTransform.position.z);
+            player.transform.position = new Vector3(startTransform.position.x + xPos, startTransform.position.y, startTransform.position.z);
             mousePos = Input.mousePosition;
         }
     }

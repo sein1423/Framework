@@ -47,7 +47,7 @@ public class SkillManager : Singleton<SkillManager>
     {
         for (int i = 0; i < fillAmount; i++)
         {
-            Transform playerTransform = gameManager.GetPlayer.transform;
+            Transform playerTransform = gameManager.Player.transform;
             GameObject expObject = FeverExpPool.instance.GetExpObject(Random.Range(0, FeverExpPool.instance.pools.Length));
             float randomX = Random.Range(-3f, 3f);
             float randomY = Random.Range(0, 7f);

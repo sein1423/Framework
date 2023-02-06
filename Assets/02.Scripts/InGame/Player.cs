@@ -6,7 +6,8 @@ public class Player : Singleton<Player>
 {
     public float bounceValue;
     public float frictionValue;
-    public bool isDead = false;
+    private bool isDead = false;
+    public bool IsDead { get => isDead; }
     public bool isFeverTime = false;
     public bool isDmgImmune = false;
     public int grade = 0;
@@ -32,48 +33,39 @@ public class Player : Singleton<Player>
 
     private CircleCollider2D coli;
 
+    GameManager gameManager;
+    UIManager uIManager;
+
     private void Awake()
     {
         //콜라이더에 physicsmaterial 할당 후 bounciness 설정
         coli = GetComponent<CircleCollider2D>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        expGainSound = GetComponent<AudioSource>();
+        rigid = GetComponent<Rigidbody2D>();
+
+        CreatePhysicsMaterial();
+        SetGradeInfo(0); // 초기 0등급 설정
+
+        uIManager = UIManager.instance;
+        gameManager = GameManager.instance;
+
+        playerOriginSize = gameObject.transform.localScale;
+    }
+
+    void CreatePhysicsMaterial()
+    {
         PhysicsMaterial2D material = new PhysicsMaterial2D();
         material.bounciness = bounceValue;
         material.friction = frictionValue;
         coli.sharedMaterial = material;
-        //
-
-        SetGradeInfo(0); // 초기 0등급 설정
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        expGainSound = GetComponent<AudioSource>();
-        rigid = GetComponent<Rigidbody2D>();
-        playerOriginSize = gameObject.transform.localScale;
     }
+
     private void Update()
     {
-        if (GameManager.instance.b_gameStart)
+        if (gameManager.b_GameStart)
         {
-            if (GameManager.instance.expTotal <= 0) //경험치 = 체력 = 0일 때
-            {
-                Dead();
-            }
-
             SetPlayerStatus(); //공의 등급별 설정 적용
-
-            FeverCheck();
-
-            if (isFeverTime) //피버타임 조건 만족 시 원래 있던 위치 저장해놓고 피버타임 맵으로 이동
-            {
-                playerPrePos = transform.position;
-                transform.position = feverTransform.position;
-                GameManager.instance.b_startFever = true;
-                isFeverTime = false;
-            }
-
-            if(GameManager.instance.b_feverDone) // 피버가 끝났을 때 피버 시작 전 기존 위치로 복귀
-            {
-                transform.position = playerPrePos;
-                GameManager.instance.b_feverDone = false;
-            }
         }
     }
     /// <summary>
@@ -81,7 +73,7 @@ public class Player : Singleton<Player>
     /// </summary>
     private void SetPlayerStatus()
     {
-        if(GameManager.instance.expTotal >= expToUp)
+        if(gameManager.ExpTotal >= expToUp)
         {
             gradeIdx++;
             if (gradeIdx > GRADE_MAX)
@@ -89,7 +81,7 @@ public class Player : Singleton<Player>
             SetGradeInfo(gradeIdx);
         }
 
-        if(GameManager.instance.expTotal < expToDown)
+        if(gameManager.ExpTotal < expToDown)
         {
             gradeIdx--;
             SetGradeInfo(gradeIdx);
@@ -111,24 +103,37 @@ public class Player : Singleton<Player>
             expDmg = 0;
     }
 
-    /// <summary>
-    /// 일정 콤보 달성 시 피버타임 활성화
-    /// </summary>
-    private void FeverCheck()
+   
+
+    public void StartFever()
     {
-        if (GameManager.instance.combo == 5)
-        {
-            SetSize(playerOriginSize);
-            isFeverTime = true;
-            GameManager.instance.combo = 0;
-        }
+        SetSize(playerOriginSize);
+
+        playerPrePos = transform.position;
+        transform.position = feverTransform.position;
+
+        DisableCollision(true);
     }
+
+    public void EndFever()
+    {
+        transform.position = playerPrePos;
+        DisableCollision(false);
+    }
+
+    void DisableCollision(bool active)
+    {
+        rigid.isKinematic = active;
+        rigid.velocity = Vector2.zero;
+        rigid.angularVelocity = 0;
+    }
+
     /// <summary>
     /// 등급별 expDmg만큼 피해
     /// </summary>
     public void Damage()
     {
-        GameManager.instance.expTotal -= expDmg;
+        gameManager.AddScore(-expDmg);
         UIManager.instance.ShowDamagedScore();
     }
 
@@ -139,25 +144,18 @@ public class Player : Singleton<Player>
     public void Dead()
     {
         isDead = true;
-        GameManager.instance.b_isGameOverByFail = true;
+        gameManager.b_isGameOverByFail = true;
         originY = gameObject.transform.position.y;
         gameObject.SetActive(false);
     }
 
     public void Revive()
     {
+        gameManager.RevivePlayer();
+
         isDead = false;
-        if (GameManager.instance.expTotal <= 0) // Dead by Damage
-        {
-            GameManager.instance.expTotal = 50;
-            originY -= 10;
-        }
-        GameManager.instance.b_gameStart = true;
-        GameManager.instance.b_isGameOverByFail = false;
-        UIManager.instance.failReviveMenu.SetActive(false);
-        UIManager.instance.f_reviveTimer = 5;
-        GameManager.instance.b_revive = true;
-        gameObject.transform.position = new Vector3(0, originY + 10f);
+        originY += 10;
+        transform.position = new Vector3(0, originY + 5f);
         gameObject.SetActive(true);
     }
 
@@ -172,5 +170,11 @@ public class Player : Singleton<Player>
     public void SetOriginSize()
     {
         SetSize(playerOriginSize);
+    }
+
+    public void DisableDebuf()
+    {
+        SetOriginSize();
+        rigid.gravityScale = 1;
     }
 }

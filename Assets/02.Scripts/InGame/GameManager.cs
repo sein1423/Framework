@@ -4,10 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+//using static UnityEditor.Experimental.GraphView.GraphView;
+//using static UnityEngine.UI.Image;
 
 public class GameManager : Singleton<GameManager>
 {
-    public int expTotal = 50;
+    private int expTotal = 50;
+    public int ExpTotal
+    {
+        get => expTotal;
+    }
+
     public int expMax = 5000;
     public int combo;
     public int gainCoinAmount;
@@ -15,11 +22,18 @@ public class GameManager : Singleton<GameManager>
     public int[] starScore_standards;
     private int starNum;
 
-    public bool b_startFever = false;
+    private bool b_startFever = false;
+    public bool b_StartFever { get => b_startFever; }
     public bool b_feverDone = false;
     public float f_startCount = 3;
     public int i_startCount = 3;
-    public bool b_gameStart = false;
+
+    private bool b_gameStart = false;
+    public bool b_GameStart
+    {
+        get { return b_gameStart; }
+    }
+
     public bool b_blindActive = false;
     public bool b_isGameOverByFail = false;
     public bool b_isGameOverBySuc = false;
@@ -41,10 +55,14 @@ public class GameManager : Singleton<GameManager>
 
     private float feverTime = 10;
     private bool b_countDown = true;
-    private Player _player;
-    public Player GetPlayer
+    private Player player;
+    public Player Player
     {
-        get { return _player; }
+        get { 
+            if (player == null)
+                player = GameObject.FindObjectOfType<Player>();
+            return player; 
+        }
     }
 
     public Blind blind;
@@ -56,9 +74,9 @@ public class GameManager : Singleton<GameManager>
     }
 
     UIManager uiManager;
+
     private void Awake()
     {
-        _player = GameObject.FindObjectOfType<Player>();
         blind = GameObject.FindObjectOfType<Blind>();
         quickSlot = GameObject.FindObjectOfType<QuickSlot>();
         gameBoard = GameObject.FindObjectOfType<GameBoard>();
@@ -92,30 +110,38 @@ public class GameManager : Singleton<GameManager>
         }
 
         //게임 시작했을 때
-        if(b_gameStart)
+        if (b_gameStart)
         {
-            if(Player.instance.isDead)
+            if (ExpTotal <= 0) //경험치 = 체력 = 0일 때
+            {
+                player.Dead();
+            }
+
+            if (Player.IsDead)
             {
                 b_gameStart = false;
             }
-            
-            if(combo == 4) // 장애물 디버프 해제
+
+            if (combo == 4) // 장애물 디버프 해제
             {
-                Player.instance.SetOriginSize();
-                Rigidbody2D rigid = Player.instance.gameObject.GetComponent<Rigidbody2D>();
-                rigid.gravityScale = 1;
+                Player.DisableDebuf();
                 blind.Disable();
             }
 
-            if(b_startFever) // Player.cs 에서 피버 조건 만족하면 피버 시작
+            if(FeverCheck())
+            {
+                StartFever();
+            }
+
+            if (b_startFever) // Player.cs 에서 피버 조건 만족하면 피버 시작
             {
                 cameraMove.SetFeverFocus();
                 feverTime -= Time.deltaTime;
-                Destroy(GetPlayer.gameObject.GetComponent<Rigidbody2D>()); // 드래그로 움직이기 위해서 Rigidbody2D 삭제, enabled = false 기능이 없음
-                                                                           // 비활성화를 위해 simulated를 off 하면 경험치가 안 먹어짐
-                if(feverTime < 0) // 피버타임이 끝나면 원래 상태로 복귀
+                //Destroy(GetPlayer.gameObject.GetComponent<Rigidbody2D>()); // 드래그로 움직이기 위해서 Rigidbody2D 삭제, enabled = false 기능이 없음
+                // 비활성화를 위해 simulated를 off 하면 경험치가 안 먹어짐
+                if (feverTime < 0) // 피버타임이 끝나면 원래 상태로 복귀
                 {
-                    ReturnOriginState();
+                    EndFever();
                 }
             }
         }
@@ -134,7 +160,7 @@ public class GameManager : Singleton<GameManager>
     {
         b_startFever = false;
         feverTime = 10;
-        GetPlayer.gameObject.AddComponent<Rigidbody2D>(); // 삭제 및 추가를 피버타임 진행 및 종료 시 딱 한번씩만 진행으로 최소화
+        //GetPlayer.gameObject.AddComponent<Rigidbody2D>(); // 삭제 및 추가를 피버타임 진행 및 종료 시 딱 한번씩만 진행으로 최소화
         FeverExpPool.instance.ReturnAll();
         b_feverDone = true;
     }
@@ -162,19 +188,27 @@ public class GameManager : Singleton<GameManager>
 
     private void CountStarForScore()
     {
-        if(expTotal < 3000)
+        if (Global.Instance.Stage <= 6)
         {
-            starNum = 1;
-        }
-
-        else if(expTotal < 5000)
-        {
-            starNum = 2;
+            starNum = 3;
         }
 
         else
-        {
-            starNum = 3;
+        { 
+            if (expTotal < 3000)
+            {
+                starNum = 1;
+            }
+
+            else if (expTotal < 5000)
+            {
+                starNum = 2;
+            }
+
+            else
+            {
+                starNum = 3;
+            }
         }
     }
 
@@ -185,7 +219,7 @@ public class GameManager : Singleton<GameManager>
             Global.Instance.Star = star;
         }
 
-        if(Global.Instance.HIghScore < expTotal)
+        if (Global.Instance.HIghScore < expTotal)
         {
             Global.Instance.HIghScore = expTotal;
         }
@@ -200,12 +234,84 @@ public class GameManager : Singleton<GameManager>
     }
     public void AddScore(int exp)
     {
-        if (b_doubleScoreItem || b_startFever)
-            expTotal += exp * 2;
-        else if (b_doubleScoreItem && b_startFever)
-            expTotal += exp * 4;
+        if (exp > 0)
+        {
+            if (b_doubleScoreItem || b_startFever)
+                expTotal += exp * 2;
+            else if (b_doubleScoreItem && b_startFever)
+                expTotal += exp * 4;
+            else
+                expTotal += exp;
+        }
         else
             expTotal += exp;
+
+    }
+
+    public void RevivePlayer()
+    {
+        if (expTotal <= 0) // Dead by Damage
+        {
+            expTotal = 50;
+        }
+
+        b_revive = true;
+        b_gameStart = true;
+        b_isGameOverByFail = false;
+
+        uiManager.failReviveMenu.SetActive(false);
+        uiManager.f_reviveTimer = 5;
+    }
+
+
+    public void OnCollisionByObstacle(BounceOff obstacle, int decreaseExp)
+    {
+        uiManager.ShowBounceOffGuide();
+
+        if (!b_obstacleImmuneItem)
+        {
+            AddScore(decreaseExp);
+            combo = 0;
+            uiManager.ShowDamagedScore();
+        }
+        else
+        {
+            b_obstacleImmuneItem = false;
+            obstacle.Disable();
+        }
+    }
+
+    public void Success()
+    {
+        b_isGameOverBySuc = true;
+        b_gameStart = false;
+        player.gameObject.SetActive(false);
+    }
+
+    public void StartFever()
+    {
+        combo = 0;
+        b_startFever = true;
+        Player.StartFever();
+        uiManager.ShowFeverText(true);
+    }
+
+    void EndFever()
+    {
+        b_startFever = false;
+        Player.EndFever();
+        uiManager.ShowFeverText(false);
+        ReturnOriginState();
+    }
+
+    /// <summary>
+    /// 일정 콤보 달성 시 피버타임 활성화
+    /// </summary>
+    private bool FeverCheck()
+    {
+        if (combo == 5)
+            return true;
+        return false;
     }
 }
 
