@@ -29,9 +29,9 @@ public class BuyItemPanelController : MonoBehaviour
         }
 
         Global.Instance.Coin -= selectItem.ItemCost;
-        Global.Instance.ItemDict[selectItem]++; 
+        Global.Instance.ItemDict[selectItem.ToString()]++; 
         Global.Instance.SaveData();
         gameObject.SetActive(false);
-
+        StageSelectManager.Instance.UpdateProfileNShop();
     }
 }

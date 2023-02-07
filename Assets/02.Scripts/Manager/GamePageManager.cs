@@ -8,10 +8,24 @@ using UnityEngine.SceneManagement;
 public class GamePageManager : MonoBehaviour
 {
     UIManager uiManager;
+    public GameObject TutorialImage;
     private void Awake()
     {
-        Application.targetFrameRate = 60;
         uiManager = UIManager.instance;
+        Application.targetFrameRate = 60;
+        /*
+        
+        if (Global.Instance.StageNumber == "GameStage01" ||
+            Global.Instance.StageNumber == "GameStage02" ||
+            Global.Instance.StageNumber == "GameStage03" ||
+            Global.Instance.StageNumber == "GameStage04" ||
+            Global.Instance.StageNumber == "GameStage05" ||
+            Global.Instance.StageNumber == "GameStage06")
+        {
+            TutorialImage.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else TutorialImage.SetActive(false);*/
     }
     public void ReturnToMainPage()
     {
@@ -37,5 +51,11 @@ public class GamePageManager : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneTable.STR_SCENE_GAMEPAGE);
+    }
+
+    public void CompTutorial()
+    {
+        TutorialImage.SetActive(false);
+        Time.timeScale = 1;
     }
 }

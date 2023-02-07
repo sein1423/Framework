@@ -982,6 +982,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197ab8b9d74419f4fb19f6f8e611acac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Items:
+  - {fileID: 11400000, guid: ec098a660d8d29241bd1e5647dfea9bb, type: 2}
+  - {fileID: 11400000, guid: 1d1dd3a0fdbc84e4c8ebd141dfe3df13, type: 2}
+  - {fileID: 11400000, guid: 1dd1be1f95c791e418b1fcbb6d545555, type: 2}
+  - {fileID: 11400000, guid: 8163b8c0db2abb040846200f69f7293a, type: 2}
+  - {fileID: 11400000, guid: 7a6497521130487438effb67455cba61, type: 2}
+  - {fileID: 11400000, guid: df745f35621fd2a4c9531a7839542d1a, type: 2}
 --- !u!4 &2083317140
 Transform:
   m_ObjectHideFlags: 0

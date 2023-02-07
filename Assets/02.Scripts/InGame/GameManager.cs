@@ -23,6 +23,7 @@ public class GameManager : Singleton<GameManager>
     private int starNum;
 
     private bool b_startFever = false;
+    private bool b_CoinGainOnce = false;
     public bool b_StartFever { get => b_startFever; }
     public bool b_feverDone = false;
     public float f_startCount = 3;
@@ -146,7 +147,8 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        CheckGameOver();
+        if(!b_gameDone)
+            CheckGameOver();
     }
 
     public void BlindItem_TriggerByPlayer()
@@ -174,15 +176,13 @@ public class GameManager : Singleton<GameManager>
 
         if (b_isGameOverBySuc)
         {
-            b_gameDone = true;
-            if (b_gameDone)
-            {
-                CountStarForScore();
-                SaveStageInfo(starNum);
-                ResultGainCoin();
-                b_gameDone = false;
-            }
+ 
+            CountStarForScore();
+            SaveStageInfo();
+            ResultGainCoin();
+            Debug.Log("GAME DONE");
             uiManager.ShowSucMenu(true, starNum);
+            b_gameDone = true;
         }
     }
 
@@ -212,16 +212,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void SaveStageInfo(int star)
+    private void SaveStageInfo()
     {
-        if (Global.Instance.Star < starNum)
-        {
-            Global.Instance.Star = star;
-        }
+        if (!Global.Instance.StageDict.ContainsKey(Global.Instance.StageNumber))
+            Global.Instance.StageDict.Add(Global.Instance.StageNumber, starNum);
 
-        if (Global.Instance.HIghScore < expTotal)
+        else
         {
-            Global.Instance.HIghScore = expTotal;
+            if (Global.Instance.StageDict[Global.Instance.StageNumber] < starNum)
+            {
+                Global.Instance.StageDict[Global.Instance.StageNumber] = starNum;
+            }
         }
 
         Global.Instance.SaveData();
@@ -229,8 +230,10 @@ public class GameManager : Singleton<GameManager>
 
     private void ResultGainCoin()
     {
+
         gainCoinAmount = starNum * 10 + Global.Instance.Stage * 10;
         Global.Instance.Coin += gainCoinAmount;
+        
     }
     public void AddScore(int exp)
     {
