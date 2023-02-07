@@ -47,4 +47,49 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01.Scenes/GameStage09.unity
     guid: 9f5c6328bcb5ba948bf84ab9d00be2df
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage10.unity
+    guid: 52a3778a37570bb42883874212b64c86
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage11.unity
+    guid: f728c28dc8e87d74f9446e7f6247f9e0
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage12.unity
+    guid: 7ebb1f72fa9fd2949acf8f713401fce1
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage13.unity
+    guid: 88cd176abf18cfc468b518550c1d90df
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage14.unity
+    guid: 76cc5a7933bc11d4ca4cd6cf942fc1fb
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage15.unity
+    guid: fdb2ce9c6e9a88b41a2032d3481cb065
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage16.unity
+    guid: bf09259b14164884889269773296bd54
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage17.unity
+    guid: e301ff05e37c26742996fab9e8c2a5d4
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage18.unity
+    guid: 5577022c6269f4545af24ab27de42512
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage19.unity
+    guid: 6ffe482bc3641ed44a9e83a4477a194d
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage20.unity
+    guid: 8604c98304e835047a5ba76ca1ffc330
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage21.unity
+    guid: 1422c519b90de444a971ede0569e72a2
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage22.unity
+    guid: 0e88e41ffa90fac40a9415126f06b54c
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage23.unity
+    guid: 8033f3558abbfce47ada0c128cc356d1
+  - enabled: 1
+    path: Assets/01.Scenes/GameStage24.unity
+    guid: 9ff91ff9bc3195346bd46af2fb4f84ff
   m_configObjects: {}

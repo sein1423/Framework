@@ -8277,7 +8277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ca7e3074257624b9fa8e226c1e6d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounceValue: 0.9
+  bounceValue: 0.8
   frictionValue: 1
   isFeverTime: 0
   isDmgImmune: 0
